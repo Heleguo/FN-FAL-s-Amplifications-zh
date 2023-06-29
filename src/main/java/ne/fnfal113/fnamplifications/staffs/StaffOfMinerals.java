@@ -3,7 +3,6 @@ package ne.fnfal113.fnamplifications.staffs;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.utils.WorldUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import ne.fnfal113.fnamplifications.staffs.abstracts.AbstractStaff;
 import ne.fnfal113.fnamplifications.utils.Keys;
