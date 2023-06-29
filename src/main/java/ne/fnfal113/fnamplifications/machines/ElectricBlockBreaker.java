@@ -14,10 +14,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import lombok.SneakyThrows;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -154,7 +155,7 @@ public class ElectricBlockBreaker extends SlimefunItem implements InventoryBlock
             new BlockPlaceHandler(false) {
                 @Override
                 public void onPlayerPlace(@Nonnull BlockPlaceEvent event) {
-                    BlockStorage.addBlockInfo(event.getBlock(), "owner", event.getPlayer().getUniqueId().toString());
+                    StorageCacheUtils.setData(event.getBlock(), "owner", event.getPlayer().getUniqueId().toString());
                 }
             }
         );
@@ -190,9 +191,9 @@ public class ElectricBlockBreaker extends SlimefunItem implements InventoryBlock
 
             @Override
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
-                String breakMode = BlockStorage.getLocationInfo(b.getLocation(), "breakBlockNaturally");
-                String isRunning = BlockStorage.getLocationInfo(b.getLocation(), "toggled_On");
-                String owner = BlockStorage.getLocationInfo(b.getLocation(), "owner");
+                String breakMode = StorageCacheUtils.getData(b.getLocation(), "breakBlockNaturally");
+                String isRunning = StorageCacheUtils.getData(b.getLocation(), "toggled_On");
+                String owner = StorageCacheUtils.getData(b.getLocation(), "owner");
 
                 // Mode
                 boolean currentMode = false;
@@ -232,7 +233,7 @@ public class ElectricBlockBreaker extends SlimefunItem implements InventoryBlock
     }
 
     public void onTick(@Nonnull Block b) {
-        BlockMenu invMenu = BlockStorage.getInventory(b);
+        BlockMenu invMenu = StorageCacheUtils.getMenu(b.getLocation());
         if (!(b.getBlockData() instanceof Dispenser)) {
             return;
         }
@@ -248,7 +249,7 @@ public class ElectricBlockBreaker extends SlimefunItem implements InventoryBlock
             if (cache.isOn) {
                 invMenu.replaceExistingItem(4, NOT_OPERATING);
 
-                if (targetBlock.getType().isSolid() && !ILLEGAL.contains(targetBlock.getType()) && !(BlockStorage.hasBlockInfo(targetBlock))) {
+                if (targetBlock.getType().isSolid() && !ILLEGAL.contains(targetBlock.getType()) && !(StorageCacheUtils.hasBlock(targetBlock.getLocation()))) {
 
                     if (!Slimefun.getProtectionManager().hasPermission(
                         Bukkit.getOfflinePlayer(cache.owner),
@@ -297,7 +298,7 @@ public class ElectricBlockBreaker extends SlimefunItem implements InventoryBlock
         final BlockBreakerCache cache = CACHE_MAP.get(location);
 
         cache.breakNaturally = !cache.breakNaturally;
-        BlockStorage.addBlockInfo(location, "breakBlockNaturally", String.valueOf(cache.breakNaturally));
+        StorageCacheUtils.setData(location, "breakBlockNaturally", String.valueOf(cache.breakNaturally));
         blockMenu.replaceExistingItem(CHANGE_MODE, cache.breakNaturally ? BREAK_BLOCK_NATURALLY : DROP_BLOCK_NATURALLY);
         CACHE_MAP.put(location, cache);
     }
@@ -307,7 +308,7 @@ public class ElectricBlockBreaker extends SlimefunItem implements InventoryBlock
         final BlockBreakerCache cache = CACHE_MAP.get(location);
 
         cache.isOn = !cache.isOn;
-        BlockStorage.addBlockInfo(location, "toggled_On", String.valueOf(cache.isOn));
+        StorageCacheUtils.setData(location, "toggled_On", String.valueOf(cache.isOn));
         blockMenu.replaceExistingItem(ON_OFF, cache.isOn ? TOGGLED_ON : TOGGLED_OFF);
         CACHE_MAP.put(location, cache);
     }

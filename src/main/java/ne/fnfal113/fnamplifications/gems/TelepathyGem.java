@@ -4,7 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import ne.fnfal113.fnamplifications.gems.abstracts.AbstractGem;
 import ne.fnfal113.fnamplifications.utils.WeaponArmorEnum;
 import ne.fnfal113.fnamplifications.gems.handlers.OnBlockBreakHandler;
@@ -45,7 +45,7 @@ public class TelepathyGem extends AbstractGem implements OnBlockBreakHandler {
             return;
         }
 
-        Optional<SlimefunItem> sfItem = Optional.ofNullable(BlockStorage.check(block));
+        Optional<SlimefunItem> sfItem = Optional.ofNullable(StorageCacheUtils.getSfItem(block));
 
         if(sfItem.isPresent()){ // drop sf blocks instead
             return;
