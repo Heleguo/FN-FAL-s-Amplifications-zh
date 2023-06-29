@@ -155,7 +155,7 @@ public class ElectricBlockBreaker extends SlimefunItem implements InventoryBlock
             new BlockPlaceHandler(false) {
                 @Override
                 public void onPlayerPlace(@Nonnull BlockPlaceEvent event) {
-                    StorageCacheUtils.setData(b.getLocation(), "owner", event.getPlayer().getUniqueId().toString());
+                    StorageCacheUtils.setData(event.location(), "owner", event.getPlayer().getUniqueId().toString());
                 }
             }
         );

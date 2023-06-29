@@ -45,7 +45,7 @@ public class TelepathyGem extends AbstractGem implements OnBlockBreakHandler {
             return;
         }
 
-        Optional<SlimefunItem> sfItem = Optional.ofNullable(StorageCacheUtils.getSfItem(location));
+        Optional<SlimefunItem> sfItem = Optional.ofNullable(StorageCacheUtils.getSfItem(block.location));
 
         if(sfItem.isPresent()){ // drop sf blocks instead
             return;
