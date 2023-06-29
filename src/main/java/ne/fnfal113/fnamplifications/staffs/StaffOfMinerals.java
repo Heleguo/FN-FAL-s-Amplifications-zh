@@ -48,18 +48,6 @@ public class StaffOfMinerals extends AbstractStaff {
             return;
         }
 
-        for(int y = WorldUtils.getMinHeight(chunk.getWorld()); y <= chunk.getWorld().getMaxHeight() - 1; y++) {
-            for(int x = 0; x <= 15; x++) {
-                for(int z = 0; z <= 15; z++) {
-                    Block itemStack = chunk.getBlock(x, y, z);
-
-                    if(materials.contains(itemStack.getType())) {
-                        MINERALS.put(itemStack.getType().name(), MINERALS.getOrDefault(itemStack.getType().name(), 0) + 1);
-                        amount = amount + 1;
-                    }
-                }
-            }
-        }
 
         ItemStack writtenBook = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta bookMeta = (BookMeta) writtenBook.getItemMeta();
